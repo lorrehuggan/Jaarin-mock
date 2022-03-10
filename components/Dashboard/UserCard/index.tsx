@@ -9,14 +9,14 @@ const UserCard = (props: Props) => {
   return (
     <Section>
       <div className="flex items-center justify-between">
-        <h4 className="text-2xl font-black">User Name</h4>
+        <h4 className="text-2xl">My Jaar</h4>
         <HiUserCircle className="text-3xl" />
       </div>
-      <div>
+      <div className="mb-8">
         <p className="text-xs text-slate-500">Job at Company</p>
       </div>
       <div className="mt-4 grid w-full grid-cols-3 gap-2">
-        <Analytic name="Tips Earned" data="80.00" />
+        <Analytic name="Total" data="80.00" />
         <Analytic name="This Week" data="7.80" />
         <Analytic name="This Month" data="17.60" />
       </div>
@@ -39,7 +39,7 @@ interface IAnalytic {
 
 const Analytic: React.FC<IAnalytic> = ({ name, data }) => {
   return (
-    <div className="rounded-md bg-slate-200 p-2">
+    <div className="rounded-md border-2 border-slate-200 p-2">
       <p className="text-center text-sm font-black">{name}</p>
       <p className="text-center font-mono font-bold text-pink-400">{`${data}`}</p>
     </div>

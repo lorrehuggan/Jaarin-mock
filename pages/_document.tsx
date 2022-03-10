@@ -40,7 +40,7 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
         </Head>
-        <body className="text-slate-800">
+        <body className="bg-neutral-100 text-slate-800">
           <Main />
           <NextScript />
         </body>

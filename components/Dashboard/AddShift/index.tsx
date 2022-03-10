@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Section from '../DashboardSection';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
+import { DatePicker } from '@mantine/dates';
 type Props = {};
 
 interface Values {
@@ -15,10 +16,15 @@ const AddShiftSchema = Yup.object().shape({
 });
 
 const AddShift = (props: Props) => {
+  const [value, onChange] = useState<Date | null>(new Date());
+
   return (
     <Section>
-      <div>
-        <h4 className="text-2xl font-black">Add Shift</h4>
+      <div className="mb-4">
+        <h4 className="text-2xl">Add Shift</h4>
+        <p className="text-xs text-slate-500">
+          Select date and enter hours worked
+        </p>
       </div>
       <Formik
         initialValues={{
@@ -26,33 +32,35 @@ const AddShift = (props: Props) => {
           hours_worked: 0,
         }}
         onSubmit={async (values: Values) => {
-          console.log(values);
+          console.log({ ...values, date: value });
         }}
         validationSchema={AddShiftSchema}
       >
         {({ errors, touched }) => (
-          <Form className="mx-auto mt-4 w-full">
-            <label htmlFor="date">Enter Date</label>
-            <Field
-              id="date"
-              name="date"
-              type="number"
-              placeholder="Enter Shift Date"
-              className="my-2 w-full rounded bg-slate-800 p-2 text-white"
+          <Form className="mx-auto mt-2 w-full">
+            <label htmlFor="date" className="text-sm text-slate-500">
+              Enter Date
+            </label>
+            <DatePicker
+              dropdownType="modal"
+              className="my-2"
+              value={value}
+              onChange={onChange}
             />
-            {errors.date ? <p>{errors.date}</p> : null}
-            <label htmlFor="hours_worked">Shift Length</label>
+            <label htmlFor="hours_worked" className="text-sm text-slate-500">
+              Shift Length
+            </label>
             <Field
               id="hours_worked"
               placeholder="Shift Length"
               type="number"
               name="hours_worked"
-              className="my-2 w-full rounded bg-slate-800 p-2 text-white"
+              className="my-2 w-full rounded bg-slate-800 px-4 py-2 text-white"
             />
             {errors.date ? <p>{errors.hours_worked}</p> : null}
             <button
               type="submit"
-              className="mt-2 w-full rounded bg-slate-400 p-2 text-center font-black"
+              className="mt-2 w-full rounded bg-slate-400 p-2 text-center font-black transition-colors duration-300 ease-in-out hover:bg-pink-400"
             >
               Submit
             </button>
