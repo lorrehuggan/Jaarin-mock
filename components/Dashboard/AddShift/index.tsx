@@ -22,9 +22,6 @@ const AddShift = (props: Props) => {
     <Section>
       <div className="mb-4">
         <h4 className="text-2xl">Add Shift</h4>
-        <p className="text-xs text-slate-500">
-          Select date and enter hours worked
-        </p>
       </div>
       <Formik
         initialValues={{
@@ -55,12 +52,12 @@ const AddShift = (props: Props) => {
               placeholder="Shift Length"
               type="number"
               name="hours_worked"
-              className="my-2 w-full rounded bg-slate-800 px-4 py-2 text-white"
+              className="my-2 w-full rounded bg-slate-300 px-4 py-2 text-white"
             />
             {errors.date ? <p>{errors.hours_worked}</p> : null}
             <button
               type="submit"
-              className="mt-2 w-full rounded bg-slate-400 p-2 text-center font-black transition-colors duration-300 ease-in-out hover:bg-pink-400"
+              className="mt-2 w-full rounded bg-slate-300 p-2 text-center uppercase transition-colors duration-300 ease-in-out hover:bg-pink-400"
             >
               Submit
             </button>

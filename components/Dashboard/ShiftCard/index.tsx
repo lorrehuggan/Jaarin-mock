@@ -1,15 +1,15 @@
 import React from 'react';
 import Section from '../DashboardSection';
 import { BsTrash } from 'react-icons/bs';
-
+import { TiTrash } from 'react-icons/ti';
 type Props = {};
 
 const ShiftCard = (props: Props) => {
   return (
     <Section>
       <div className="flex justify-between">
-        <h4 className=" text-slate-400">Rogue Vegan</h4>
-        <BsTrash className="text-2xl" />
+        <h4 className=" text-slate-400">Most Recent Shift</h4>
+        <TiTrash className="text-2xl" />
       </div>
       <div>
         <h4 className="my-10 text-center text-4xl font-black">
