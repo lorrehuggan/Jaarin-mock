@@ -1,30 +1,20 @@
-import React, { useState } from 'react';
-import {
-  ResponsiveContainer,
-  Tooltip,
-  AreaChart,
-  Area,
-  XAxis,
-  Legend,
-} from 'recharts';
+import React from 'react';
+import { ResponsiveContainer, Tooltip, AreaChart, Area, XAxis } from 'recharts';
 import { Wage } from 'utils/types/job-types';
-import { useWeeklyData } from './useWeeklyData';
-import { handleCurrency, numberReducer } from 'utils/helpers';
-import { useUserState } from 'context/user/userProvider';
+import { HandleCurrency, numberReducer } from 'utils/helpers';
 import useTips from 'utils/hooks/useTips';
 
 type Props = {
   wages: Wage[];
 };
 interface ITips {
-  currentWeekTips: number[];
-  currentWeekHours: number[];
+  currentWeekTips?: number[];
+  currentWeekHours?: number[];
   weekData?: Wage[][];
 }
 
 const DailyAreaChart: React.FC<Props> = ({ wages }) => {
-  const { weekData } = useWeeklyData(wages);
-  const { currentWeekTips, currentWeekHours } = useTips(wages);
+  const { currentWeekTips, currentWeekHours, weekData } = useTips(wages);
 
   return (
     <section className="mx-auto my-6 w-[90%] overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-100 pt-4 shadow-lg">
@@ -44,34 +34,33 @@ const DailyAreaChart: React.FC<Props> = ({ wages }) => {
 export default DailyAreaChart;
 
 const Details: React.FC<ITips> = ({ currentWeekTips, currentWeekHours }) => {
-  const [{ authenticatedUser: user }, dispatch] = useUserState();
   return (
     <div className="mb-8 flex items-center justify-between px-4">
-      <div>
-        <p className="text-base">{`${handleCurrency(
-          user.currency
-        )}${numberReducer(currentWeekTips).toFixed(2)}`}</p>
-        <p className=" text-xs text-slate-400">Received this week</p>
-      </div>
       <div className="flex">
         <div className="flex items-center">
           <div className="mr-1 h-2 w-2 rounded-full bg-pink-400"></div>
-          <p className="text-sm text-pink-400">T/Tips</p>
+          <p className="text-xs text-pink-400">Total/Tips</p>
         </div>
         <div className="ml-2 flex items-center">
           <div className="mr-1 h-2 w-2 rounded-full bg-indigo-400"></div>
-          <p className="text-sm text-indigo-400">T/Hours</p>
+          <p className="text-xs text-indigo-400">Total/Hours</p>
+        </div>
+      </div>
+      <div className="flex">
+        <div className="">
+          <div className="rounded-xl bg-green-400/50 p-1">
+            <p className="text-center text-base text-green-800">{`${HandleCurrency()}${numberReducer(
+              currentWeekTips!
+            ).toFixed(2)}`}</p>
+          </div>
+          <p className=" text-xs text-slate-400">Received this week</p>
         </div>
       </div>
     </div>
   );
 };
 
-const Weekly: React.FC<ITips> = ({
-  currentWeekTips,
-  currentWeekHours,
-  weekData,
-}) => {
+const Weekly: React.FC<ITips> = ({ weekData }) => {
   const shortDayName = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   const fullDayName = [
     'Monday',

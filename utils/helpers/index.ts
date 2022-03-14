@@ -1,4 +1,6 @@
+import { AuthenticatedUser } from './../types/user-types';
 import { fromUnixTime } from 'date-fns';
+import { useUserState } from 'context/user/userProvider';
 
 interface DateObject {
   day: string;
@@ -24,8 +26,9 @@ export function numberReducer(numArray: number[]): number {
   }, 0);
 }
 
-export function handleCurrency(currency: string): string {
-  switch (currency) {
+export function HandleCurrency(): string {
+  const [{ authenticatedUser: user }] = useUserState();
+  switch (user?.currency) {
     case 'GBP':
       return '£';
     case 'USD':

@@ -9,7 +9,7 @@ import {
   isThisWeek,
   formatDistanceToNow,
 } from 'date-fns';
-import { handleCurrency, numberReducer } from 'utils/helpers';
+import { HandleCurrency, numberReducer } from 'utils/helpers';
 import { AuthenticatedUser } from 'utils/types/user-types';
 
 type Props = {
@@ -90,7 +90,7 @@ const Analytic: React.FC<IAnalytic> = ({ name, data, currency }) => {
     <div className="rounded-md border-2 border-slate-200/50 py-6 px-2">
       <p className="text-center text-xs ">{name}</p>
       <p className=" text-center text-lg font-bold text-pink-400">
-        <span className="text-xs">{handleCurrency(currency)}</span>
+        <span className="text-xs">{HandleCurrency()}</span>
         {data.toFixed(2)}
       </p>
     </div>
