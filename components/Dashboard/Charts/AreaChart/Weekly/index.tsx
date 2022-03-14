@@ -7,128 +7,123 @@ import {
   XAxis,
   Legend,
 } from 'recharts';
-import { TiChartLine } from 'react-icons/ti';
+import { Wage } from 'utils/types/job-types';
+import { useWeeklyData } from './useWeeklyData';
+import { handleCurrency, numberReducer } from 'utils/helpers';
+import { useUserState } from 'context/user/userProvider';
+import useTips from 'utils/hooks/useTips';
 
-type Props = {};
-
-interface State {
-  state: boolean;
-  setState: React.Dispatch<React.SetStateAction<boolean>>;
+type Props = {
+  wages: Wage[];
+};
+interface ITips {
+  currentWeekTips: number[];
+  currentWeekHours: number[];
+  weekData?: Wage[][];
 }
 
-const data = [
-  {
-    name: 'monday',
-    tips: 5.5,
-    hours: 8,
-  },
-  {
-    name: 'tuesday',
-    tips: 7.9,
-    hours: 10,
-  },
-  {
-    name: 'wednesday',
-    tips: 4,
-    hours: 12,
-  },
-  {
-    name: 'thursday',
-    tips: 6,
-    hours: 3,
-  },
-  {
-    name: 'friday',
-    tips: 2.9,
-    hours: 5,
-  },
-  {
-    name: 'saturday',
-    tips: 13.5,
-    hours: 7,
-  },
-  {
-    name: 'sunday',
-    tips: 4,
-    hours: 11,
-  },
-];
-const monthlyData = [
-  {
-    name: 'monday',
-    tips: 5.5,
-    hours: 8,
-  },
-  {
-    name: 'tuesday',
-    tips: 9.9,
-    hours: 10,
-  },
-  {
-    name: 'wednesday',
-    tips: 25.5,
-    hours: 12,
-  },
-  {
-    name: 'thursday',
-    tips: 20.5,
-    hours: 3,
-  },
-  {
-    name: 'friday',
-    tips: 22.9,
-    hours: 5,
-  },
-  {
-    name: 'saturday',
-    tips: 13.5,
-    hours: 7,
-  },
-  {
-    name: 'sunday',
-    tips: 11,
-    hours: 11,
-  },
-];
+const DailyAreaChart: React.FC<Props> = ({ wages }) => {
+  const { weekData } = useWeeklyData(wages);
+  const { currentWeekTips, currentWeekHours } = useTips(wages);
 
-const DailyAreaChart = (props: Props) => {
-  const [state, setState] = useState(true);
   return (
     <section className="mx-auto my-6 w-[90%] overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-100 pt-4 shadow-lg">
-      <Details />
-      {state ? <Weekly /> : <Monthly />}
+      <Details
+        currentWeekHours={currentWeekHours}
+        currentWeekTips={currentWeekTips}
+      />
+      <Weekly
+        currentWeekTips={currentWeekTips}
+        currentWeekHours={currentWeekHours}
+        weekData={weekData}
+      />
     </section>
   );
 };
 
 export default DailyAreaChart;
 
-const Details = () => {
+const Details: React.FC<ITips> = ({ currentWeekTips, currentWeekHours }) => {
+  const [{ authenticatedUser: user }, dispatch] = useUserState();
   return (
     <div className="mb-8 flex items-center justify-between px-4">
       <div>
-        <p className="text-base">£73.00</p>
+        <p className="text-base">{`${handleCurrency(
+          user.currency
+        )}${numberReducer(currentWeekTips).toFixed(2)}`}</p>
         <p className=" text-xs text-slate-400">Received this week</p>
       </div>
-      <div className="flex items-center justify-end rounded-xl bg-green-300/40 p-1">
-        <p className=" text-green-800">12%</p>
-        <TiChartLine className="ml-1 text-2xl text-green-800" />
+      <div className="flex">
+        <div className="flex items-center">
+          <div className="mr-1 h-2 w-2 rounded-full bg-pink-400"></div>
+          <p className="text-sm text-pink-400">T/Tips</p>
+        </div>
+        <div className="ml-2 flex items-center">
+          <div className="mr-1 h-2 w-2 rounded-full bg-indigo-400"></div>
+          <p className="text-sm text-indigo-400">T/Hours</p>
+        </div>
       </div>
     </div>
   );
 };
 
-const Weekly = () => {
+const Weekly: React.FC<ITips> = ({
+  currentWeekTips,
+  currentWeekHours,
+  weekData,
+}) => {
+  const shortDayName = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const fullDayName = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+  ];
+  const data = weekData!.map((week) => {
+    const days = week.map((day, i) => {
+      return { ...day, name: shortDayName[i] };
+    });
+    return days;
+  });
+
+  const WeekDataArray = fullDayName.map((day, i) => {
+    return {
+      tips: data[i].map((arg) => {
+        return arg.tips;
+      }),
+      hours: data[i].map((arg) => {
+        return arg.hours_worked;
+      }),
+      date: data[i].map((arg) => {
+        return arg.date;
+      }),
+      name: data[i].map((arg) => {
+        return arg.name;
+      }),
+    };
+  });
+
+  const totalWeekData = shortDayName.map((day, i) => {
+    return {
+      name: WeekDataArray[i].name,
+      tips: Number(numberReducer(WeekDataArray[i].tips).toFixed(2)),
+      hours: Number(numberReducer(WeekDataArray[i].hours).toFixed(0)),
+    };
+  });
+
   return (
     <ResponsiveContainer width="100%" height={200}>
       <AreaChart
         width={400}
         height={400}
-        data={data}
+        data={totalWeekData}
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
       >
         <defs>
-          <linearGradient id="tips" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id="_tips" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor="rgb(249 168 212)" stopOpacity={0.8} />
             <stop offset="95%" stopColor="rgb(249 168 212)" stopOpacity={0.2} />
           </linearGradient>
@@ -138,19 +133,14 @@ const Weekly = () => {
           </linearGradient>
         </defs>
         <Tooltip />
-        <XAxis dataKey="name" hide={true} />
-        <Legend
-          verticalAlign="top"
-          height={36}
-          iconType="circle"
-          iconSize={10}
-        />
+        <XAxis dataKey="name" hide={false} />
+
         <Area
           type="monotone"
           dataKey="tips"
           stroke="rgb(244 114 182)"
-          fill="url(#tips)"
-          fillOpacity={0.85}
+          fill="url(#_tips)"
+          fillOpacity={0.95}
           strokeWidth={0}
           animationEasing="ease-in-out"
         />
@@ -161,46 +151,6 @@ const Weekly = () => {
           fill="url(#hours)"
           fillOpacity={0.95}
           strokeWidth={0}
-          animationEasing="ease-in-out"
-        />
-      </AreaChart>
-    </ResponsiveContainer>
-  );
-};
-
-const Monthly = () => {
-  return (
-    <ResponsiveContainer width="100%" height={200}>
-      <AreaChart
-        width={400}
-        height={400}
-        data={monthlyData}
-        margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-      >
-        <defs>
-          <linearGradient id="colortips" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="rgb(249 168 212)" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="rgb(249 168 212)" stopOpacity={0.2} />
-          </linearGradient>
-        </defs>
-        <Tooltip />
-        <XAxis dataKey="name" hide={true} />
-        <Area
-          type="monotone"
-          dataKey="tips"
-          stroke="rgb(244 114 182)"
-          fill="url(#colortips)"
-          fillOpacity={0.85}
-          strokeWidth={1}
-          animationEasing="ease-in-out"
-        />
-        <Area
-          type="monotone"
-          dataKey="hours"
-          stroke="rgb(244 114 182)"
-          fill="url(#colortips)"
-          fillOpacity={0.95}
-          strokeWidth={1}
           animationEasing="ease-in-out"
         />
       </AreaChart>

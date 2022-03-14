@@ -3,6 +3,9 @@ import Section from '../DashboardSection';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import { DatePicker } from '@mantine/dates';
+import { getUnixTime } from 'date-fns';
+import { jobRoutes } from 'utils/api-routes';
+import useSWR, { useSWRConfig } from 'swr';
 type Props = {};
 
 interface Values {
@@ -10,13 +13,24 @@ interface Values {
   hours_worked: number;
 }
 
+const token = () => {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem('token');
+  } else {
+    return;
+  }
+};
+
 const AddShiftSchema = Yup.object().shape({
   date: Yup.number().required('Required'),
   hours_worked: Yup.number().min(2, 'Invalid').max(24, 'Invalid'),
 });
 
 const AddShift = (props: Props) => {
-  const [value, onChange] = useState<Date | null>(new Date());
+  const [value, setValue] = useState<Date | null>(new Date());
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { mutate } = useSWRConfig();
 
   return (
     <Section>
@@ -27,9 +41,25 @@ const AddShift = (props: Props) => {
         initialValues={{
           date: 0,
           hours_worked: 0,
+          tips: 0,
         }}
-        onSubmit={async (values: Values) => {
-          console.log({ ...values, date: value });
+        onSubmit={async (values: Values, { resetForm }) => {
+          setLoading(true);
+          try {
+            const res = await fetch(jobRoutes.createShift, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: token()!,
+              },
+              body: JSON.stringify({ ...values, date: getUnixTime(value!) }),
+            });
+            const data = await res.json();
+            resetForm();
+          } catch (error: any) {
+            setError(error.message);
+          }
+          setLoading(false);
         }}
         validationSchema={AddShiftSchema}
       >
@@ -42,7 +72,17 @@ const AddShift = (props: Props) => {
               dropdownType="modal"
               className="my-2"
               value={value}
-              onChange={onChange}
+              onChange={setValue}
+            />
+            <label htmlFor="hours_worked" className="text-sm text-slate-500">
+              Tips Earned
+            </label>
+            <Field
+              id="tips"
+              placeholder="Shift Length"
+              type="number"
+              name="tips"
+              className="my-2 w-full rounded bg-slate-300 px-4 py-2 text-white"
             />
             <label htmlFor="hours_worked" className="text-sm text-slate-500">
               Shift Length

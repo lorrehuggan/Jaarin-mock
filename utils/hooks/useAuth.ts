@@ -11,7 +11,7 @@ export const UseAuth = () => {
   useEffect(() => {
     if (localStorage.getItem('token')) {
       const decodedToken: AuthenticatedUser = jwtDecode(
-        localStorage.getItem('token')!
+        localStorage?.getItem('token')!
       );
       if (decodedToken != null && decodedToken.exp * 1000 < Date.now()) {
         router.push('/login');

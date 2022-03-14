@@ -38,7 +38,6 @@ const Login = (props: Props) => {
             });
             const data: UserID = await res.json();
             resetForm();
-            setLoading(false);
             if (data.token) {
               localStorage.setItem('token', data.token);
               router.push(`/dashboard`);
@@ -47,6 +46,7 @@ const Login = (props: Props) => {
             setLoading(false);
             setError(error.message);
           }
+          setLoading(false);
         }}
         validationSchema={loginSchema}
       >

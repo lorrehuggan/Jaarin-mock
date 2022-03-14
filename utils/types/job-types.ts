@@ -13,5 +13,15 @@ export interface Wage {
   tips: number;
   hours_worked: number;
   date: number;
-  _id: string;
+  _id?: string;
+}
+
+export interface IWeekData {
+  Mondays: Wage[];
+  Tuesdays: Wage[];
+  Wednesdays: Wage[];
+  Thursdays: Wage[];
+  Fridays: Wage[];
+  Saturdays: Wage[];
+  Sundays: Wage[];
 }
