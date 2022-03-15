@@ -10,7 +10,7 @@ import { UseAuth } from 'utils/hooks/useAuth';
 import { jobRoutes } from 'utils/api-routes';
 import { Job } from 'utils/types/job-types';
 import { useRouter } from 'next/router';
-import { sortDatesDesc } from 'utils/helpers';
+import WeeklyRadialBarChart from '@components/Dashboard/Charts/RadialBarChart/Weekly';
 
 type Props = {};
 
@@ -57,6 +57,7 @@ const Dashboard = (props: Props) => {
           <UserCard job={data} user={user} />
           <AddShift />
           <DailyAreaChart wages={data.wages} />
+          {/* <WeeklyRadialBarChart wages={data.wages} /> */}
           <ShiftCard wages={data.wages} />
         </main>
       </>

@@ -31,15 +31,18 @@ const ShiftCard: React.FC<Props> = ({ wages }) => {
           return (
             <div
               key={wage._id}
-              className={`mb-1 grid w-full grid-cols-3 gap-1 py-1`}
+              className={`mb-1 grid w-full grid-cols-2 gap-1 py-1`}
             >
-              <p className="mr-1 flex items-center text-slate-400">{`${date} ${month}`}</p>
-              <p className="flex items-center justify-center rounded-xl bg-green-400/50 p-1 text-green-800">{`${HandleCurrency()}${wage.tips.toFixed(
-                2
-              )}`}</p>
-              <span className="flex  items-center justify-end">
-                <TiTrash className=" text-2xl text-red-300" />
-              </span>
+              <p className="mr-1 flex items-center text-slate-500">{`
+              ${day} ${date} ${month}`}</p>
+              <div className="flex justify-between">
+                <p className="flex w-full items-center justify-center rounded-xl bg-green-400/50 p-1 text-green-800">{`${HandleCurrency()}${wage.tips.toFixed(
+                  2
+                )}`}</p>
+                <span className="ml-2 flex items-center justify-end">
+                  <TiTrash className=" text-2xl text-red-400" />
+                </span>
+              </div>
             </div>
           );
         })}
