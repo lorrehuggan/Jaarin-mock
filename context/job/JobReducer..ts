@@ -1,7 +1,8 @@
-import { Wage } from '../../utils/types/job-types';
+import { Wage, Job } from '../../utils/types/job-types';
 
 export const jobInitialState: JobInitState = {
   filteredShifts: [],
+  job: null,
 };
 
 interface Action extends JobInitState {
@@ -10,6 +11,7 @@ interface Action extends JobInitState {
 
 interface JobInitState {
   filteredShifts: Wage[];
+  job: Job | null;
 }
 
 export const jobReducer = (state: JobInitState, action: Action) => {
@@ -18,6 +20,11 @@ export const jobReducer = (state: JobInitState, action: Action) => {
       return {
         ...state,
         filteredShifts: action.filteredShifts,
+      };
+    case 'JOB':
+      return {
+        ...state,
+        job: action.job,
       };
     default:
       return state;

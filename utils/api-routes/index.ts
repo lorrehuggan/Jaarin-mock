@@ -8,5 +8,4 @@ export const userRoutes = {
 
 export const jobRoutes = {
   base: `${BASE_URL}/job`,
-  createShift: `${BASE_URL}/job/create-shift`,
 };

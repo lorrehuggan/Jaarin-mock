@@ -6,27 +6,20 @@ import { DatePicker } from '@mantine/dates';
 import { getUnixTime } from 'date-fns';
 import { jobRoutes } from 'utils/api-routes';
 import useSWR, { useSWRConfig } from 'swr';
-type Props = {};
+import { useLocalStorage } from 'utils/hooks/useLocalStorage';
 
 interface Values {
   date: number;
   hours_worked: number;
 }
 
-const token = () => {
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem('token');
-  } else {
-    return;
-  }
-};
-
 const AddShiftSchema = Yup.object().shape({
   date: Yup.number().required('Required'),
-  hours_worked: Yup.number().min(2, 'Invalid').max(24, 'Invalid'),
+  hours_worked: Yup.number().min(1, 'Invalid').max(24, 'Invalid'),
 });
 
-const AddShift = (props: Props) => {
+const AddShift = () => {
+  const { token } = useLocalStorage();
   const [value, setValue] = useState<Date | null>(new Date());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -46,19 +39,23 @@ const AddShift = (props: Props) => {
         onSubmit={async (values: Values, { resetForm }) => {
           setLoading(true);
           try {
-            const res = await fetch(jobRoutes.createShift, {
+            const res = await fetch(jobRoutes.base, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
-                Authorization: token()!,
+                Authorization: token!,
               },
               body: JSON.stringify({ ...values, date: getUnixTime(value!) }),
             });
             const data = await res.json();
+            console.log(data);
+            mutate([jobRoutes.base, token]);
             resetForm();
           } catch (error: any) {
             setError(error.message);
           }
+          console.log('hello');
+
           setLoading(false);
         }}
         validationSchema={AddShiftSchema}
@@ -84,6 +81,7 @@ const AddShift = (props: Props) => {
               id="tips"
               placeholder="Shift Length"
               type="number"
+              min="1"
               name="tips"
               className="my-2 w-full rounded bg-slate-300 px-4 py-2 text-white"
             />
@@ -94,6 +92,7 @@ const AddShift = (props: Props) => {
               id="hours_worked"
               placeholder="Shift Length"
               type="number"
+              min="1"
               name="hours_worked"
               className="my-2 w-full rounded bg-slate-300 px-4 py-2 text-white"
             />

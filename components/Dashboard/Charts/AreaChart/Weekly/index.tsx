@@ -97,7 +97,7 @@ const Weekly: React.FC<ITips> = ({ weekData }) => {
 
   const totalWeekData = shortDayName.map((day, i) => {
     return {
-      name: WeekDataArray[i].name,
+      name: shortDayName[i],
       tips: Number(numberReducer(WeekDataArray[i].tips).toFixed(2)),
       hours: Number(numberReducer(WeekDataArray[i].hours).toFixed(0)),
     };
