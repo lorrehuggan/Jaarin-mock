@@ -3,14 +3,10 @@ import { FiSettings } from 'react-icons/fi';
 import Section from '../DashboardSection';
 import { TiUser } from 'react-icons/ti';
 import { Job } from 'utils/types/job-types';
-import {
-  isThisMonth,
-  fromUnixTime,
-  isThisWeek,
-  formatDistanceToNow,
-} from 'date-fns';
+import { formatDistanceToNow } from 'date-fns';
 import { HandleCurrency, numberReducer } from 'utils/helpers';
 import { AuthenticatedUser } from 'utils/types/user-types';
+import useTips from 'utils/hooks/useTips';
 
 type Props = {
   job: Job | undefined;
@@ -18,20 +14,7 @@ type Props = {
 };
 
 const UserCard: React.FC<Props> = ({ job, user }) => {
-  let allTips: number[] = [];
-  let monthTips: number[] = [];
-  let weekTips: number[] = [];
-
-  job?.wages.forEach((wage) => {
-    const fromUnix = fromUnixTime(wage.date);
-    allTips.push(wage.tips);
-    if (isThisMonth(fromUnix)) {
-      monthTips.push(wage.tips);
-    }
-    if (isThisWeek(fromUnix)) {
-      weekTips.push(wage.tips);
-    }
-  });
+  const { allTips, currentMonthTips, currentWeekTips } = useTips(job?.wages);
 
   const userMemberLength = useMemo(
     () =>
@@ -59,12 +42,12 @@ const UserCard: React.FC<Props> = ({ job, user }) => {
         <Analytic
           currency={user.currency}
           name="This Week"
-          data={numberReducer(weekTips)}
+          data={numberReducer(currentWeekTips)}
         />
         <Analytic
           currency={user.currency}
           name="This Month"
-          data={numberReducer(monthTips)}
+          data={numberReducer(currentMonthTips)}
         />
       </div>
       <div className="mt-4 flex items-center justify-between">
@@ -89,7 +72,7 @@ const Analytic: React.FC<IAnalytic> = ({ name, data, currency }) => {
   return (
     <div className="rounded-md border-2 border-slate-200/50 py-6 px-2">
       <p className="text-center text-xs ">{name}</p>
-      <p className=" text-center text-lg font-bold text-pink-400">
+      <p className=" text-center text-lg font-bold text-green-400">
         <span className="text-xs">{HandleCurrency()}</span>
         {data.toFixed(2)}
       </p>

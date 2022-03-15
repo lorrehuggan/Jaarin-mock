@@ -73,6 +73,9 @@ const AddShift = (props: Props) => {
               className="my-2"
               value={value}
               onChange={setValue}
+              styles={{
+                input: { backgroundColor: '#CBD5E1', color: '#ffffff' },
+              }}
             />
             <label htmlFor="hours_worked" className="text-sm text-slate-500">
               Tips Earned

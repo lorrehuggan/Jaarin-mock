@@ -1,27 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Section from '../DashboardSection';
-import { BsTrash } from 'react-icons/bs';
-import { TiTrash } from 'react-icons/ti';
-type Props = {};
+import { TiTrash, TiThLarge } from 'react-icons/ti';
+import { Wage } from 'utils/types/job-types';
+import { getDateString, HandleCurrency, sortDatesDesc } from 'utils/helpers';
 
-const ShiftCard = (props: Props) => {
+type Props = {
+  wages: Wage[];
+};
+
+const ShiftCard: React.FC<Props> = ({ wages }) => {
+  const [shiftListAmount, setShiftListAmount] = useState(5);
+  const _wages = sortDatesDesc(wages);
   return (
     <Section>
       <div className="flex justify-between">
-        <h4 className=" text-slate-400">Most Recent Shift</h4>
-        <TiTrash className="text-2xl" />
+        <h4 className="text-2xl">Recent Shifts</h4>
+        <button
+          onClick={() => {
+            shiftListAmount === 5
+              ? setShiftListAmount(100)
+              : setShiftListAmount(5);
+          }}
+        >
+          <TiThLarge className="text-2xl" />
+        </button>
       </div>
-      <div>
-        <h4 className="my-10 text-center text-4xl font-black">
-          Sat 05 Mar 2022
-        </h4>
-      </div>
-      <div className="flex justify-between">
-        <p className="text-xs">
-          <span className="text-2xl">8</span>HRS
-        </p>
-
-        <p className="text-xl font-black text-pink-400">£11.87</p>
+      <div className="mt-4">
+        {_wages?.slice(0, shiftListAmount).map((wage, i) => {
+          const { day, month, date } = getDateString(wage.date);
+          return (
+            <div
+              key={wage._id}
+              className={`mb-1 grid w-full grid-cols-3 gap-1 py-1`}
+            >
+              <p className="mr-1 flex items-center text-slate-400">{`${date} ${month}`}</p>
+              <p className="flex items-center justify-center rounded-xl bg-green-400/50 p-1 text-green-800">{`${HandleCurrency()}${wage.tips.toFixed(
+                2
+              )}`}</p>
+              <span className="flex  items-center justify-end">
+                <TiTrash className=" text-2xl text-red-300" />
+              </span>
+            </div>
+          );
+        })}
       </div>
     </Section>
   );

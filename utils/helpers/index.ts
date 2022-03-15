@@ -1,5 +1,5 @@
-import { AuthenticatedUser } from './../types/user-types';
-import { fromUnixTime } from 'date-fns';
+import { Wage } from './../types/job-types';
+import { compareDesc, fromUnixTime } from 'date-fns';
 import { useUserState } from 'context/user/userProvider';
 
 interface DateObject {
@@ -38,4 +38,8 @@ export function HandleCurrency(): string {
     default:
       return '$';
   }
+}
+
+export function sortDatesDesc(wage: Wage[] | undefined) {
+  return wage?.sort((a, b) => compareDesc(Number(a.date), Number(b.date)));
 }

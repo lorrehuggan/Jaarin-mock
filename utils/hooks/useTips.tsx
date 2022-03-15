@@ -3,7 +3,7 @@ import { Wage } from 'utils/types/job-types';
 import { getTime } from 'date-fns';
 import { getDateString } from 'utils/helpers';
 
-const useTips = (wages: Wage[]) => {
+const useTips = (wages: Wage[] | undefined) => {
   let allTips: number[] = [];
   let allHours: number[] = [];
   let currentMonthTips: number[] = [];
@@ -12,7 +12,7 @@ const useTips = (wages: Wage[]) => {
   let currentWeekHours: number[] = [];
   let shifts: Wage[] = [];
 
-  wages.forEach((wage) => shifts.push(wage));
+  wages?.forEach((wage) => shifts.push(wage));
 
   let Mondays: Wage[] = [];
   let Tuesdays: Wage[] = [];
@@ -66,7 +66,7 @@ const useTips = (wages: Wage[]) => {
     Sundays,
   ];
 
-  wages.forEach((wage) => {
+  wages?.forEach((wage) => {
     const date = fromUnixTime(wage.date);
     allTips.push(wage.tips);
     allHours.push(wage.hours_worked);
