@@ -39,7 +39,7 @@ const AddShift = () => {
         onSubmit={async (values: Values, { resetForm }) => {
           setLoading(true);
           try {
-            const res = await fetch(jobRoutes.base, {
+            const res = await fetch(jobRoutes.createShift, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

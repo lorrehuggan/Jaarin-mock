@@ -50,12 +50,6 @@ const UserCard: React.FC<Props> = ({ job, user }) => {
           data={numberReducer(currentMonthTips)}
         />
       </div>
-      <div className="mt-4 flex items-center justify-between">
-        <FiSettings className="text-lg" />
-        <p className="text-xs capitalize text-slate-400">
-          {`User since ${userMemberLength} `}
-        </p>
-      </div>
     </Section>
   );
 };

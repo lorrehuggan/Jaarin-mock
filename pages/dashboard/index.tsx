@@ -4,7 +4,7 @@ import UserCard from '@components/Dashboard/UserCard';
 import AddShift from '@components/Dashboard/AddShift';
 import ShiftCard from '@components/Dashboard/ShiftCard';
 import useSWR from 'swr';
-import DailyAreaChart from '@components/Dashboard/Charts/AreaChart/Weekly';
+import WeeklyAreaChart from '@components/Dashboard/Charts/AreaChart/Weekly';
 import { AuthenticatedUser } from 'utils/types/user-types';
 import { UseAuth } from 'utils/hooks/useAuth';
 import { jobRoutes } from 'utils/api-routes';
@@ -30,10 +30,15 @@ const Dashboard = () => {
       <>
         <HTMLHead title="Dashboard" />
         <main className="pb-10">
-          <UserCard job={data} user={user} />
-          <AddShift />
-          <DailyAreaChart wages={data.wages} />
-          <ShiftCard wages={data.wages} />
+          <section className="mx-auto grid w-[90%] grid-cols-1 md:grid-cols-2 ">
+            <UserCard job={data} user={user} />
+            <AddShift />
+          </section>
+          <section className="mx-auto grid w-[90%] grid-cols-1 md:grid-cols-2">
+            <WeeklyAreaChart wages={data.wages} />
+            {/* <WeeklyRadialBarChart wages={data.wages} /> */}
+            <ShiftCard wages={data.wages} jobID={data._id} />
+          </section>
         </main>
       </>
     );

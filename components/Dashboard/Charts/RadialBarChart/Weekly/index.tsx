@@ -100,13 +100,12 @@ const WeeklyRadialBarChart: React.FC<Props> = ({ wages }) => {
       </div>
       <ResponsiveContainer width="100%" height={280}>
         <RadialBarChart
-          width={830}
-          height={200}
-          innerRadius="10%"
+          cx="50%"
+          cy="50%"
+          innerRadius="8%"
           outerRadius="80%"
+          barSize={10}
           data={totalWeekData}
-          startAngle={180}
-          endAngle={0}
         >
           <RadialBar background dataKey="tips" />
 
@@ -114,7 +113,7 @@ const WeeklyRadialBarChart: React.FC<Props> = ({ wages }) => {
         </RadialBarChart>
       </ResponsiveContainer>
 
-      <div className="-mt-16 flex w-full items-center justify-between">
+      <div className=" flex w-full items-center justify-between">
         {shortDayName.map((day, i) => {
           return (
             <div
