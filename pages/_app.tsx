@@ -5,6 +5,7 @@ import { UserProvider } from 'context/user/userProvider';
 import { userInitialState, userReducer } from 'context/user/UserReducer.';
 import { jobInitialState, jobReducer } from 'context/job/JobReducer.';
 import { SWRConfig } from 'swr';
+import { ToastProvider } from 'react-toast-notifications';
 
 const fetcher = (url: string, token: string) =>
   fetch(url, {
@@ -20,7 +21,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <SWRConfig value={{ fetcher }}>
       <JobProvider initialState={jobInitialState} reducer={jobReducer}>
         <UserProvider initialState={userInitialState} reducer={userReducer}>
-          <Component {...pageProps} />
+          <ToastProvider>
+            <Component {...pageProps} />
+          </ToastProvider>
         </UserProvider>
       </JobProvider>
     </SWRConfig>

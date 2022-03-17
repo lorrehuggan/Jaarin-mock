@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Section from '../DashboardSection';
 import { TiTrash, TiThLarge } from 'react-icons/ti';
-import { Wage } from 'utils/types/job-types';
+import { Job, Wage } from 'utils/types/job-types';
 import { getDateString, HandleCurrency, sortDatesDesc } from 'utils/helpers';
 import { jobRoutes } from 'utils/api-routes';
 import { useLocalStorage } from 'utils/hooks/useLocalStorage';
-import useSWR, { useSWRConfig } from 'swr';
+import { useSWRConfig } from 'swr';
+import { useToasts } from 'react-toast-notifications';
 
 type Props = {
   wages: Wage[];
@@ -18,8 +19,10 @@ const ShiftCard: React.FC<Props> = ({ wages, jobID }) => {
   const _wages = sortDatesDesc(wages);
   const [error, setError] = useState<string | null>(null);
   const { mutate } = useSWRConfig();
+  const { addToast } = useToasts();
 
-  const deleteShift = async (wageID: string | undefined) => {
+  const deleteShift = async (wage: Wage) => {
+    const { day, month, date } = getDateString(wage.date);
     try {
       const res = await fetch(jobRoutes.deleteShift, {
         method: 'POST',
@@ -27,11 +30,19 @@ const ShiftCard: React.FC<Props> = ({ wages, jobID }) => {
           'Content-Type': 'application/json',
           Authorization: token!,
         },
-        body: JSON.stringify({ jobID, wageID }),
+        body: JSON.stringify({ jobID, wageID: wage._id }),
       });
-      const data = res.json();
+      const data: Job = await res.json();
       mutate([jobRoutes.base, token]);
-    } catch (error) {}
+      addToast(`${date} ${month} Shift Deleted!`, {
+        appearance: 'success',
+        autoDismiss: true,
+        autoDismissTimeout: 2500,
+        newestOnTop: true,
+      });
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -64,7 +75,7 @@ const ShiftCard: React.FC<Props> = ({ wages, jobID }) => {
                   2
                 )}`}</p>
                 <button
-                  onClick={() => deleteShift(wage._id)}
+                  onClick={() => deleteShift(wage)}
                   className="ml-2 flex items-center justify-end"
                 >
                   <TiTrash className=" text-2xl text-red-400" />

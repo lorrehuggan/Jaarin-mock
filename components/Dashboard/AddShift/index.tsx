@@ -7,6 +7,8 @@ import { getUnixTime } from 'date-fns';
 import { jobRoutes } from 'utils/api-routes';
 import useSWR, { useSWRConfig } from 'swr';
 import { useLocalStorage } from 'utils/hooks/useLocalStorage';
+import { useToasts } from 'react-toast-notifications';
+import { Job } from 'utils/types/job-types';
 
 interface Values {
   date: number;
@@ -24,6 +26,7 @@ const AddShift = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { mutate } = useSWRConfig();
+  const { addToast } = useToasts();
 
   return (
     <Section>
@@ -47,14 +50,19 @@ const AddShift = () => {
               },
               body: JSON.stringify({ ...values, date: getUnixTime(value!) }),
             });
-            const data = await res.json();
-            console.log(data);
+            const data: Job = await res.json();
+
             mutate([jobRoutes.base, token]);
             resetForm();
+            addToast(`${data.user} Added Shift,`, {
+              appearance: 'success',
+              autoDismiss: true,
+              autoDismissTimeout: 2500,
+              newestOnTop: true,
+            });
           } catch (error: any) {
             setError(error.message);
           }
-          console.log('hello');
 
           setLoading(false);
         }}

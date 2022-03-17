@@ -16,7 +16,10 @@ export const UseAuth = () => {
       const exp = fromUnixTime(decodedToken.exp);
       const authorized = isFuture(exp);
       if (authorized) {
-        dispatch({ type: 'AUTHENTICATION', authenticatedUser: decodedToken });
+        dispatch({
+          type: 'AUTHENTICATION',
+          authenticatedUser: decodedToken,
+        });
       } else {
         router.push('/login');
       }
