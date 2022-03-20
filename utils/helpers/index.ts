@@ -1,6 +1,8 @@
 import { Wage } from './../types/job-types';
 import { compareDesc, fromUnixTime } from 'date-fns';
 import { useUserState } from 'context/user/userProvider';
+import { jobRoutes } from 'utils/api-routes';
+import { useLocalStorage } from 'utils/hooks/useLocalStorage';
 
 interface DateObject {
   day: string;

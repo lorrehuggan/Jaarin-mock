@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
 import Section from '../DashboardSection';
 import { TiUser } from 'react-icons/ti';
@@ -7,31 +7,30 @@ import { formatDistanceToNow } from 'date-fns';
 import { HandleCurrency, numberReducer } from 'utils/helpers';
 import { AuthenticatedUser } from 'utils/types/user-types';
 import useTips from 'utils/hooks/useTips';
+import useSWR from 'swr';
 
 type Props = {
   job: Job | undefined;
   user: AuthenticatedUser;
 };
 
+interface IQuotes {
+  author: string;
+  quote: string;
+}
+
 const UserCard: React.FC<Props> = ({ job, user }) => {
   const { allTips, currentMonthTips, currentWeekTips } = useTips(job?.wages);
-
-  const userMemberLength = useMemo(
-    () =>
-      formatDistanceToNow(job?.createdAt!, {
-        addSuffix: true,
-      }),
-    [job]
-  );
+  const [state, setState] = useState(0);
 
   return (
     <Section>
       <div className="flex items-center justify-between">
-        <h4 className="text-2xl">Overview</h4>
+        <h4 className="text-2xl font-bold">Overview</h4>
         <TiUser className="text-3xl" />
       </div>
       <div className="mb-8">
-        <p className="text-xs text-slate-500">{job?.company_name}</p>
+        <p className="text-sm text-slate-400">{job?.company_name}</p>
       </div>
       <div className="mt-4 mb-10 grid w-full grid-cols-3 gap-2">
         <Analytic

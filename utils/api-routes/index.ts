@@ -10,4 +10,5 @@ export const jobRoutes = {
   base: `${BASE_URL}/job`,
   deleteShift: `${BASE_URL}/job/delete-shift`,
   createShift: `${BASE_URL}/job/create-shift`,
+  updateShift: `${BASE_URL}/job/update-shift`,
 };

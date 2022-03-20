@@ -71,7 +71,7 @@ const Login = (props: Props) => {
               type="password"
               name="password"
             />
-            {errors.username && touched.password ? (
+            {errors.password && touched.password ? (
               <p>{errors.password}</p>
             ) : (
               ''

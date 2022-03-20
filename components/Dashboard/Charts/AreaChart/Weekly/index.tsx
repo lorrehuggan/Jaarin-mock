@@ -13,7 +13,7 @@ interface ITips {
   weekData?: Wage[][];
 }
 
-const DailyAreaChart: React.FC<Props> = ({ wages }) => {
+const WeeklyAreaChart: React.FC<Props> = ({ wages }) => {
   const { currentWeekTips, currentWeekHours, weekData } = useTips(wages);
 
   return (
@@ -31,7 +31,7 @@ const DailyAreaChart: React.FC<Props> = ({ wages }) => {
   );
 };
 
-export default DailyAreaChart;
+export default WeeklyAreaChart;
 
 const Details: React.FC<ITips> = ({ currentWeekTips, currentWeekHours }) => {
   return (

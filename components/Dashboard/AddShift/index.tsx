@@ -5,10 +5,11 @@ import * as Yup from 'yup';
 import { DatePicker } from '@mantine/dates';
 import { getUnixTime } from 'date-fns';
 import { jobRoutes } from 'utils/api-routes';
-import useSWR, { useSWRConfig } from 'swr';
+import { useSWRConfig } from 'swr';
 import { useLocalStorage } from 'utils/hooks/useLocalStorage';
 import { useToasts } from 'react-toast-notifications';
 import { Job } from 'utils/types/job-types';
+import useJob from 'utils/hooks/useJob';
 
 interface Values {
   date: number;
@@ -31,7 +32,7 @@ const AddShift = () => {
   return (
     <Section>
       <div className="mb-4">
-        <h4 className="text-2xl">Add Shift</h4>
+        <h4 className="text-2xl font-bold">Add Shift</h4>
       </div>
       <Formik
         initialValues={{
@@ -79,35 +80,48 @@ const AddShift = () => {
               value={value}
               onChange={setValue}
               styles={{
-                input: { backgroundColor: '#CBD5E1', color: '#ffffff' },
+                input: {
+                  backgroundColor: '#94A3B8',
+                  color: '#ffffff',
+                  fontSize: '1.25rem',
+                  padding: '1.25rem 1rem',
+                },
               }}
             />
-            <label htmlFor="hours_worked" className="text-sm text-slate-500">
-              Tips Earned
-            </label>
-            <Field
-              id="tips"
-              placeholder="Shift Length"
-              type="number"
-              min="1"
-              name="tips"
-              className="my-2 w-full rounded bg-slate-300 px-4 py-2 text-white"
-            />
-            <label htmlFor="hours_worked" className="text-sm text-slate-500">
-              Shift Length
-            </label>
-            <Field
-              id="hours_worked"
-              placeholder="Shift Length"
-              type="number"
-              min="1"
-              name="hours_worked"
-              className="my-2 w-full rounded bg-slate-300 px-4 py-2 text-white"
-            />
-            {errors.date ? <p>{errors.hours_worked}</p> : null}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="tips" className="text-sm text-slate-500">
+                  Tips Earned
+                </label>
+                <Field
+                  id="tips"
+                  placeholder="Shift Length"
+                  type="number"
+                  min="1"
+                  name="tips"
+                  className="my-2 w-full rounded bg-slate-400 px-4 py-2 text-xl text-white"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="hours_worked"
+                  className="text-sm text-slate-500"
+                >
+                  Shift Length
+                </label>
+                <Field
+                  id="hours_worked"
+                  placeholder="Shift Length"
+                  type="number"
+                  min="1"
+                  name="hours_worked"
+                  className="my-2 w-full rounded bg-slate-400 px-4 py-2 text-xl text-white"
+                />
+              </div>
+            </div>
             <button
               type="submit"
-              className="mt-2 w-full rounded bg-slate-300 p-2 text-center uppercase transition-colors duration-300 ease-in-out hover:bg-pink-400"
+              className="mt-2 w-full rounded bg-slate-800 p-2 text-center uppercase text-slate-100 transition-colors duration-300 ease-in-out hover:bg-pink-400"
             >
               Submit
             </button>
