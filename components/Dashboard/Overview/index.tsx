@@ -19,7 +19,7 @@ interface IQuotes {
   quote: string;
 }
 
-const UserCard: React.FC<Props> = ({ job, user }) => {
+const Overview: React.FC<Props> = ({ job, user }) => {
   const { allTips, currentMonthTips, currentWeekTips } = useTips(job?.wages);
   const [state, setState] = useState(0);
 
@@ -32,7 +32,7 @@ const UserCard: React.FC<Props> = ({ job, user }) => {
       <div className="mb-8">
         <p className="text-sm text-slate-400">{job?.company_name}</p>
       </div>
-      <div className="mt-4 mb-10 grid w-full grid-cols-3 gap-2">
+      <div className="mt-4 grid w-full grid-cols-3 gap-2">
         <Analytic
           currency={user.currency}
           name="Received"
@@ -53,7 +53,7 @@ const UserCard: React.FC<Props> = ({ job, user }) => {
   );
 };
 
-export default UserCard;
+export default Overview;
 
 interface IAnalytic {
   name: string;

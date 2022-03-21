@@ -167,6 +167,7 @@ export const EditModal: React.FC<IEdit> = ({ wage }) => {
                     id="tips"
                     placeholder="Shift Length"
                     type="number"
+                    step="any"
                     min="1"
                     name="tips"
                     className="my-2 w-full rounded bg-slate-400 px-4 py-2 text-xl text-white"
@@ -183,7 +184,8 @@ export const EditModal: React.FC<IEdit> = ({ wage }) => {
                     id="hours_worked"
                     placeholder="Shift Length"
                     type="number"
-                    min="1"
+                    min="0.5"
+                    step="0.5"
                     name="hours_worked"
                     className="my-2 w-full rounded bg-slate-400 px-4 py-2 text-xl text-white"
                   />
