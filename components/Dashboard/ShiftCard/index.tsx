@@ -49,7 +49,7 @@ const ShiftCard: React.FC<Props> = ({ wages, jobID }) => {
           return (
             <div
               key={wage._id}
-              className={`mb-1 grid w-full grid-cols-2 gap-1 py-1`}
+              className={`mb-1 grid w-full grid-cols-2 gap-1 border-l-2 border-dotted border-slate-500 py-1 pl-2`}
             >
               <p className="mr-1 flex items-center text-slate-500">{`
               ${day} ${date} ${month}`}</p>

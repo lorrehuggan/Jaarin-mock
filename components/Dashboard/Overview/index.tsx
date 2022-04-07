@@ -65,7 +65,7 @@ const Analytic: React.FC<IAnalytic> = ({ name, data, currency }) => {
   return (
     <div className="rounded-md border-2 border-slate-200 py-6 px-2">
       <p className="text-center text-sm ">{name}</p>
-      <p className=" text-center text-3xl font-bold text-slate-400">
+      <p className=" text-center text-xl font-bold text-slate-400">
         <span className="text-sm">{HandleCurrency()}</span>
         {data.toFixed(2)}
       </p>

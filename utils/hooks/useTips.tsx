@@ -209,7 +209,7 @@ const useTips = (wages: Wage[] | undefined) => {
     Dec,
   ];
 
-  const thisWeekData: Wage[][] = [
+  const currentWeekData: Wage[][] = [
     ThisMondays,
     ThisTuesdays,
     ThisWednesdays,
@@ -243,25 +243,25 @@ const useTips = (wages: Wage[] | undefined) => {
     }
   });
 
-  const data = weekData!.map((week) => {
+  const _weekData = weekData!.map((week) => {
     const days = week.map((day, i) => {
       return { ...day, name: shortDayName[i] };
     });
     return days;
   });
 
-  const WeekDataArray = fullDayName.map((day, i) => {
+  const _weekDataArray = fullDayName.map((day, i) => {
     return {
-      tips: data[i].map((arg) => {
+      tips: _weekData[i].map((arg) => {
         return arg.tips;
       }),
-      hours: data[i].map((arg) => {
+      hours: _weekData[i].map((arg) => {
         return arg.hours_worked;
       }),
-      date: data[i].map((arg) => {
+      date: _weekData[i].map((arg) => {
         return arg.date;
       }),
-      name: data[i].map((arg) => {
+      name: _weekData[i].map((arg) => {
         return arg.name;
       }),
     };
@@ -270,12 +270,12 @@ const useTips = (wages: Wage[] | undefined) => {
   const totalWeekData = shortDayName.map((day, i) => {
     return {
       name: shortDayName[i],
-      tips: Number(numberReducer(WeekDataArray[i].tips).toFixed(2)),
-      hours: Number(numberReducer(WeekDataArray[i].hours).toFixed(0)),
+      tips: Number(numberReducer(_weekDataArray[i].tips).toFixed(2)),
+      hours: Number(numberReducer(_weekDataArray[i].hours).toFixed(0)),
     };
   });
 
-  const _thisWeekData = thisWeekData!.map((week) => {
+  const _thisWeekData = currentWeekData!.map((week) => {
     const days = week.map((day, i) => {
       return { ...day, name: shortDayName[i] };
     });
@@ -306,19 +306,22 @@ const useTips = (wages: Wage[] | undefined) => {
       hours: Number(numberReducer(_thisWeekDataArray[i].hours).toFixed(0)),
     };
   });
-
+  //TODO
+  // use better naming for this hooks returned props
   return {
-    allTips,
-    allHours,
-    currentMonthHours,
-    currentWeekHours,
-    currentMonthTips,
-    currentWeekTips,
-    thisMonthsTips,
-    thisWeeksTips,
-    weekData,
-    monthData,
-    thisWeekData,
+    allTips, //number[]
+    allHours, //number[]
+    currentMonthHours, //number[]
+    currentWeekHours, //number[]
+    currentMonthTips, //number[]
+    currentWeekTips, //  number[]
+    thisMonthsTips, //Wage[]
+    thisWeeksTips, // Wage[]
+    weekData, //Wage[][]
+    monthData, //Wage[][]
+    currentWeekData, // Wage[][]
+    totalWeekData, // {name: string; tips: number;hours: number;}[]
+    totalThisWeekData, // {name: string; tips: number;hours: number;}[]
   };
 };
 

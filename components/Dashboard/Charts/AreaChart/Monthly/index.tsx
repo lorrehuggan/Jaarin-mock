@@ -60,7 +60,7 @@ const MonthlyAreaChart: React.FC<Props> = ({ wages }) => {
   });
 
   return (
-    <section className="mx-auto my-6 w-[90%] overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-100 pt-4 shadow-lg">
+    <section className=" mx-auto mb-4 w-[90%] overflow-hidden rounded-2xl border-2 border-slate-700 bg-slate-100 pt-4 shadow-bottom lg:w-[100%]">
       <Details
         currentWeekHours={currentWeekHours}
         currentWeekTips={currentWeekTips}

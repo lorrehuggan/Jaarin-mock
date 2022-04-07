@@ -35,13 +35,16 @@ const Dashboard = () => {
     return (
       <>
         <HTMLHead title="Dashboard" />
-        <main className="pb-10">
-          <UserCard job={data} user={user} />
-          <AddShift />
-          <WeeklyAreaChart wages={data.wages} />
-          <MonthlyAreaChart wages={data.wages} />
-          <WeeklyRadialBarChart wages={data.wages} />
-          <ShiftCard wages={data.wages} jobID={data._id} />
+        <main className="">
+          <section className="mt-6 grid grid-cols-1 lg:my-8 lg:mx-auto lg:w-[90%] lg:grid-cols-2 lg:gap-4">
+            <UserCard job={data} user={user} />
+            <AddShift />
+          </section>
+          <section className="mt-6 grid grid-cols-1 lg:my-4 lg:mx-auto lg:w-[90%] lg:grid-cols-2 lg:gap-4">
+            <WeeklyAreaChart wages={data.wages} />
+            <MonthlyAreaChart wages={data.wages} />
+            <ShiftCard wages={data.wages} jobID={data._id} />
+          </section>
         </main>
       </>
     );

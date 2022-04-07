@@ -18,8 +18,8 @@ interface ITips {
   currentWeekTips?: number[];
   currentWeekHours?: number[];
   weekData: WageData[];
-  thisWeek: boolean;
-  setThisWeek: React.Dispatch<React.SetStateAction<boolean>>;
+  isThisWeek: boolean;
+  setIsThisWeek: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface WageData {
@@ -31,96 +31,31 @@ interface WageData {
 interface WageWeekData {
   weekData: WageData[];
   thisWeeksTips: WageData[];
-  thisWeek: boolean;
+  isThisWeek: boolean;
 }
 
 const WeeklyAreaChart: React.FC<Props> = ({ wages }) => {
-  const [thisWeek, setThisWeek] = useState(true);
+  const [isThisWeek, setIsThisWeek] = useState(false);
   const {
     currentWeekTips,
     currentWeekHours,
-    weekData,
-    thisWeeksTips,
-    thisWeekData,
+    totalWeekData,
+    totalThisWeekData,
   } = useTips(wages);
 
-  const data = weekData!.map((week) => {
-    const days = week.map((day, i) => {
-      return { ...day, name: shortDayName[i] };
-    });
-    return days;
-  });
-
-  const WeekDataArray = fullDayName.map((day, i) => {
-    return {
-      tips: data[i].map((arg) => {
-        return arg.tips;
-      }),
-      hours: data[i].map((arg) => {
-        return arg.hours_worked;
-      }),
-      date: data[i].map((arg) => {
-        return arg.date;
-      }),
-      name: data[i].map((arg) => {
-        return arg.name;
-      }),
-    };
-  });
-
-  const totalWeekData = shortDayName.map((day, i) => {
-    return {
-      name: shortDayName[i],
-      tips: Number(numberReducer(WeekDataArray[i].tips).toFixed(2)),
-      hours: Number(numberReducer(WeekDataArray[i].hours).toFixed(0)),
-    };
-  });
-
-  const _thisWeekData = thisWeekData!.map((week) => {
-    const days = week.map((day, i) => {
-      return { ...day, name: shortDayName[i] };
-    });
-    return days;
-  });
-
-  const _thisWeekDataArray = fullDayName.map((day, i) => {
-    return {
-      tips: _thisWeekData[i].map((arg) => {
-        return arg.tips;
-      }),
-      hours: _thisWeekData[i].map((arg) => {
-        return arg.hours_worked;
-      }),
-      date: _thisWeekData[i].map((arg) => {
-        return arg.date;
-      }),
-      name: _thisWeekData[i].map((arg) => {
-        return arg.name;
-      }),
-    };
-  });
-
-  const _totalThisWeekData = shortDayName.map((day, i) => {
-    return {
-      name: shortDayName[i],
-      tips: Number(numberReducer(_thisWeekDataArray[i].tips).toFixed(2)),
-      hours: Number(numberReducer(_thisWeekDataArray[i].hours).toFixed(0)),
-    };
-  });
-
   return (
-    <section className="mx-auto my-6 w-[90%] overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-100 pt-4 shadow-lg">
+    <section className=" mx-auto mb-4 w-[90%] overflow-hidden rounded-2xl border-2 border-slate-700 bg-slate-100 pt-4 shadow-bottom lg:w-[100%]">
       <Details
         currentWeekHours={currentWeekHours}
         currentWeekTips={currentWeekTips}
         weekData={totalWeekData}
-        thisWeek={thisWeek}
-        setThisWeek={setThisWeek}
+        isThisWeek={isThisWeek}
+        setIsThisWeek={setIsThisWeek}
       />
-      <Weekly
+      <Chart
         weekData={totalWeekData}
-        thisWeeksTips={_totalThisWeekData}
-        thisWeek={thisWeek}
+        thisWeeksTips={totalThisWeekData}
+        isThisWeek={isThisWeek}
       />
     </section>
   );
@@ -132,16 +67,15 @@ const Details: React.FC<ITips> = ({
   currentWeekTips,
   currentWeekHours,
   weekData,
-  thisWeek,
-  setThisWeek,
+  isThisWeek,
+  setIsThisWeek,
 }) => {
   const [opened, setOpened] = useState(false);
+
   const weekTips = weekData.map((week) => {
     return week.tips;
   });
-
   const highestTips = Math.max.apply(null, weekTips);
-
   const highestTipsDay = weekData.filter((week) => {
     return week.tips === highestTips;
   });
@@ -155,10 +89,12 @@ const Details: React.FC<ITips> = ({
             styles={{
               input: { backgroundColor: 'rgb(129 140 248)' },
             }}
-            onChange={(event) => setThisWeek(event.currentTarget.checked)}
+            onChange={(event) => {
+              setIsThisWeek(event.currentTarget.checked);
+            }}
           />
           <p className="ml-2 text-sm text-slate-400">
-            {thisWeek ? 'This weeks tips' : 'All tips'}
+            {isThisWeek ? 'This weeks tips' : 'All tips'}
           </p>
         </div>
         <div className="flex">
@@ -219,17 +155,17 @@ const Details: React.FC<ITips> = ({
   );
 };
 
-const Weekly: React.FC<WageWeekData> = ({
+const Chart: React.FC<WageWeekData> = ({
   weekData,
   thisWeeksTips,
-  thisWeek,
+  isThisWeek,
 }) => {
   return (
     <ResponsiveContainer width="100%" height={200}>
       <AreaChart
         width={400}
         height={400}
-        data={thisWeek ? thisWeeksTips : weekData}
+        data={isThisWeek ? thisWeeksTips : weekData}
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
       >
         <defs>

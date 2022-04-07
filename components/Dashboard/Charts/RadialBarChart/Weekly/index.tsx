@@ -1,13 +1,12 @@
 import Section from '@components/Dashboard/DashboardSection';
 import React, { useState } from 'react';
 import {
-  Legend,
   RadialBar,
   RadialBarChart,
   ResponsiveContainer,
   Tooltip,
 } from 'recharts';
-import { HandleCurrency, numberReducer } from 'utils/helpers';
+import { HandleCurrency, numberReducer, shortDayName } from 'utils/helpers';
 import useTips from 'utils/hooks/useTips';
 import { Wage } from 'utils/types/job-types';
 
@@ -41,49 +40,13 @@ const chartColors = [
 
 const WeeklyRadialBarChart: React.FC<Props> = ({ wages }) => {
   let [isOpen, setIsOpen] = useState(true);
-  const { currentWeekTips, currentWeekHours, weekData } = useTips(wages);
-  const shortDayName = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  const fullDayName = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
-  ];
-  const data = weekData!.map((week) => {
-    const days = week.map((day, i) => {
-      return { ...day, name: shortDayName[i] };
-    });
-    return days;
+  const { currentWeekTips, totalWeekData } = useTips(wages);
+
+  //mod totalWeekData to add additional rechart props
+  const _totalWeekData = shortDayName.map((day, i) => {
+    return { ...totalWeekData[i], name: day, fill: chartColors[i].fill };
   });
 
-  const WeekDataArray = fullDayName.map((day, i) => {
-    return {
-      tips: data[i].map((arg) => {
-        return arg.tips;
-      }),
-      hours: data[i].map((arg) => {
-        return arg.hours_worked;
-      }),
-      date: data[i].map((arg) => {
-        return arg.date;
-      }),
-      name: data[i].map((arg) => {
-        return arg.name;
-      }),
-    };
-  });
-
-  const totalWeekData = shortDayName.map((day, i) => {
-    return {
-      name: day,
-      tips: Number(numberReducer(WeekDataArray[i].tips).toFixed(2)),
-      hours: Number(numberReducer(WeekDataArray[i].hours).toFixed(0)),
-      fill: chartColors[i].fill,
-    };
-  });
   return (
     <Section>
       <div className=" relative flex items-center justify-between ">
@@ -105,7 +68,7 @@ const WeeklyRadialBarChart: React.FC<Props> = ({ wages }) => {
           innerRadius="8%"
           outerRadius="80%"
           barSize={10}
-          data={totalWeekData}
+          data={_totalWeekData}
         >
           <RadialBar background dataKey="tips" />
 
