@@ -12,8 +12,16 @@ export const UseAuth = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
+      // redirect back to dashboard if user is already logged in
+      if (router.pathname === '/login') {
+        router.push('/dashboard');
+        return;
+      }
+      // decode token received from sever
       const decodedToken: AuthenticatedUser = jwtDecode(token);
+      // convert token expiry date from unix time to regular date
       const exp = fromUnixTime(decodedToken.exp);
+      //check if expiry is in the future and if so set user as authorize else redirect
       const authorized = isFuture(exp);
       if (authorized) {
         dispatch({
@@ -25,6 +33,7 @@ export const UseAuth = () => {
       }
       return;
     }
+    //redirect if no token is present
     if (!token) {
       router.push('/login');
     }

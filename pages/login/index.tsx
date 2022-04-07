@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import { userRoutes } from '../../utils/api-routes';
-import { LoginInput, UserID } from 'utils/types/user-types';
+import { AuthenticatedUser, LoginInput, UserID } from 'utils/types/user-types';
 import { useRouter } from 'next/router';
+import { UseAuth } from 'utils/hooks/useAuth';
 type Props = {};
 
 const loginSchema = Yup.object().shape({
@@ -15,6 +16,8 @@ const loginSchema = Yup.object().shape({
 
 const Login = (props: Props) => {
   const router = useRouter();
+  const { authenticatedUser: user }: { authenticatedUser: AuthenticatedUser } =
+    UseAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   return (

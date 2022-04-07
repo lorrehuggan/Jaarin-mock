@@ -83,7 +83,7 @@ const AddShift = () => {
                 input: {
                   backgroundColor: '#94A3B8',
                   color: '#ffffff',
-                  fontSize: '1.25rem',
+                  fontSize: '1rem',
                   padding: '1.25rem 1rem',
                 },
               }}
@@ -100,7 +100,7 @@ const AddShift = () => {
                   step="any"
                   min="1"
                   name="tips"
-                  className="my-2 w-full rounded bg-slate-400 px-4 py-2 text-xl text-white"
+                  className="my-2 w-full rounded bg-slate-400 px-4 py-2 text-base text-white"
                 />
               </div>
               <div>
@@ -117,7 +117,7 @@ const AddShift = () => {
                   min="0.5"
                   step="0.5"
                   name="hours_worked"
-                  className="my-2 w-full rounded bg-slate-400 px-4 py-2 text-xl text-white"
+                  className="my-2 w-full rounded bg-slate-400 px-4 py-2 text-base text-white"
                 />
               </div>
             </div>

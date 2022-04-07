@@ -7,8 +7,11 @@ const Home: NextPage = () => {
   return (
     <>
       <nav className="mx-auto flex h-24 w-2/3 items-center justify-between ">
-        <div>
-          <h1 className="font-mono text-3xl font-bold">Jaarin</h1>
+        <div className="flex items-center">
+          <div className="mr-2 flex h-8 w-8 items-center justify-center rounded bg-slate-600 p-1 font-mono uppercase text-white">
+            J
+          </div>
+          <h2 className="font-mono text-2xl font-bold">Jaarin</h2>
         </div>
         <ul className="flex items-center uppercase text-slate-500">
           <li className="mr-4">
