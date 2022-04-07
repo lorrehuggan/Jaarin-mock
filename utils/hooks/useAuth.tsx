@@ -18,7 +18,7 @@ export const UseAuth = () => {
       if (authorized) {
         dispatch({
           type: 'AUTHENTICATION',
-          authenticatedUser: decodedToken,
+          authenticatedUser: { ...decodedToken },
         });
       } else {
         router.push('/login');
@@ -28,6 +28,7 @@ export const UseAuth = () => {
     if (!token) {
       router.push('/login');
     }
+    return () => {};
   }, [dispatch, router]);
 
   return { authenticatedUser };

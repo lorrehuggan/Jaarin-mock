@@ -43,7 +43,7 @@ const ShiftCard: React.FC<Props> = ({ wages, jobID }) => {
         </button>
       </div>
       <div className="mt-4">
-        {wages.length === 0 && <p>No shifts added</p>}
+        {wages?.length === 0 && <p>No shifts added</p>}
         {_wages?.slice(0, shiftListAmount).map((wage, i) => {
           const { day, month, date } = getDateString(wage.date);
           return (

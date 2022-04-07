@@ -30,7 +30,7 @@ const Overview: React.FC<Props> = ({ job, user }) => {
         <TiUser className="text-3xl" />
       </div>
       <div className="mb-8">
-        <p className="text-sm text-slate-400">{job?.company_name}</p>
+        <p className="text-sm text-slate-500">{job?.company_name}</p>
       </div>
       <div className="mt-4 grid w-full grid-cols-3 gap-2">
         <Analytic
@@ -65,7 +65,7 @@ const Analytic: React.FC<IAnalytic> = ({ name, data, currency }) => {
   return (
     <div className="rounded-md border-2 border-slate-200 py-6 px-2">
       <p className="text-center text-sm ">{name}</p>
-      <p className=" text-center text-xl font-bold text-slate-400">
+      <p className=" text-center text-xl font-bold text-slate-800">
         <span className="text-sm">{HandleCurrency()}</span>
         {data.toFixed(2)}
       </p>
