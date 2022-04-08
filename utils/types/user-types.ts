@@ -22,3 +22,7 @@ export interface UserID {
   email: string;
   token: string;
 }
+
+export interface MenuState {
+  isOpen: boolean;
+}

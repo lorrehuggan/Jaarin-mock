@@ -1,3 +1,4 @@
+import { useUserState } from 'context/user/userProvider';
 import React from 'react';
 
 type Props = {};
@@ -33,8 +34,14 @@ const menu = [
 ];
 
 const SideBar = (props: Props) => {
+  const [{ mobileMenu }, dispatch] = useUserState();
+
   return (
-    <section className="fixed -left-52 top-0 z-20  h-full w-52 border-r-[1px] border-neutral-300 bg-white lg:left-0">
+    <section
+      className={`fixed ${
+        mobileMenu.isOpen ? 'left-0 shadow-xl' : '-left-52'
+      } top-0 z-20  h-full w-52 border-r-[1px] border-neutral-300 bg-white transition-all duration-300 ease-in-out lg:left-0`}
+    >
       <div className="flex h-20 items-center justify-center px-10">
         <div className="mr-2 flex h-8 w-8 items-center justify-center rounded bg-slate-600 p-1 font-mono uppercase text-white">
           J

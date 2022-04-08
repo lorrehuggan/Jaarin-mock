@@ -4,11 +4,13 @@ import { UseAuth } from 'utils/hooks/useAuth';
 import { AuthenticatedUser } from 'utils/types/user-types';
 import { Popover } from '@mantine/core';
 import { useUserState } from 'context/user/userProvider';
+import { Burger } from '@mantine/core';
 type Props = {};
 
 const Nav = (props: Props) => {
   const [uOpened, setUOpened] = useState(false);
-  const [{ authenticatedUser: authUser }, dispatch] = useUserState();
+  const [{ authenticatedUser: authUser, mobileMenu }, dispatch] =
+    useUserState();
   const { authenticatedUser: user }: { authenticatedUser: AuthenticatedUser } =
     UseAuth();
   const router = useRouter();
@@ -32,11 +34,9 @@ const Nav = (props: Props) => {
   return (
     <section className="flex h-20 items-center justify-between border-b-[1px] border-neutral-300 bg-white px-10 lg:ml-52">
       <div>
-        <p className="">
-          👋<span className="">{` ${user.username}`}</span>
-        </p>
+        <p className="text-xs">{`Hi, ${user.username}`}</p>
       </div>
-      <ul className="flex items-center justify-between lg:w-[10%]">
+      <ul className="flex w-[35%] items-center justify-between lg:w-[10%]">
         <li>
           <Popover
             opened={uOpened}
@@ -94,7 +94,7 @@ const Nav = (props: Props) => {
             />
           </svg>
         </li>
-        <li>
+        <li className="hidden lg:block">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -109,6 +109,18 @@ const Nav = (props: Props) => {
               d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
+        </li>
+        <li className="lg:hidden">
+          <Burger
+            size={24}
+            opened={mobileMenu.isOpen}
+            onClick={() =>
+              dispatch({
+                type: 'MOBILE_MENU',
+                mobileMenu: { isOpen: !mobileMenu.isOpen },
+              })
+            }
+          />
         </li>
       </ul>
     </section>

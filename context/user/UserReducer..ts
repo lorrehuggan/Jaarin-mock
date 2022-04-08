@@ -1,4 +1,8 @@
-import { AuthenticatedUser, UserID } from '../../utils/types/user-types';
+import {
+  AuthenticatedUser,
+  MenuState,
+  UserID,
+} from '../../utils/types/user-types';
 
 export const userInitialState: UserInitState = {
   authenticatedUser: {
@@ -10,6 +14,9 @@ export const userInitialState: UserInitState = {
     createdAt: 0,
     currency: '',
   },
+  mobileMenu: {
+    isOpen: false,
+  },
 };
 
 interface Action extends UserInitState {
@@ -17,6 +24,7 @@ interface Action extends UserInitState {
 }
 export interface UserInitState {
   authenticatedUser: AuthenticatedUser;
+  mobileMenu: MenuState;
 }
 
 export const userReducer = (state: UserInitState, action: Action) => {
@@ -25,6 +33,11 @@ export const userReducer = (state: UserInitState, action: Action) => {
       return {
         ...state,
         authenticatedUser: action.authenticatedUser,
+      };
+    case 'MOBILE_MENU':
+      return {
+        ...state,
+        mobileMenu: action.mobileMenu,
       };
     default:
       return state;
