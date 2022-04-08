@@ -34,7 +34,7 @@ const menu = [
 
 const SideBar = (props: Props) => {
   return (
-    <section className="fixed left-0 top-0 z-20 hidden h-full w-52 border-r-[1px] border-neutral-300 bg-white lg:block">
+    <section className="fixed -left-52 top-0 z-20  h-full w-52 border-r-[1px] border-neutral-300 bg-white lg:left-0">
       <div className="flex h-20 items-center justify-center px-10">
         <div className="mr-2 flex h-8 w-8 items-center justify-center rounded bg-slate-600 p-1 font-mono uppercase text-white">
           J

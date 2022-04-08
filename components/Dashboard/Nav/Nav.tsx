@@ -3,15 +3,29 @@ import React, { useState } from 'react';
 import { UseAuth } from 'utils/hooks/useAuth';
 import { AuthenticatedUser } from 'utils/types/user-types';
 import { Popover } from '@mantine/core';
+import { useUserState } from 'context/user/userProvider';
 type Props = {};
 
 const Nav = (props: Props) => {
   const [uOpened, setUOpened] = useState(false);
+  const [{ authenticatedUser: authUser }, dispatch] = useUserState();
   const { authenticatedUser: user }: { authenticatedUser: AuthenticatedUser } =
     UseAuth();
   const router = useRouter();
   const handleLogout = (): void => {
     localStorage.removeItem('token');
+    dispatch({
+      type: 'AUTHENTICATION',
+      authenticatedUser: {
+        id: '',
+        email: '',
+        username: '',
+        iat: 0,
+        exp: 0,
+        createdAt: 0,
+        currency: '',
+      },
+    });
     router.push('/');
   };
   const usernameFirstCharacter = user.username.split('')[0];
