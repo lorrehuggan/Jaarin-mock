@@ -44,7 +44,7 @@ const WeeklyAreaChart: React.FC<Props> = ({ wages }) => {
   } = useTips(wages);
 
   return (
-    <section className=" mx-auto mb-4 w-[90%] overflow-hidden rounded border-2 border-slate-200 bg-white pt-4  lg:w-[100%]">
+    <section className=" mx-auto mb-4 w-[90%] overflow-hidden rounded border-[1px] border-neutral-300 bg-white pt-4  lg:w-[100%]">
       <Details
         currentWeekHours={currentWeekHours}
         currentWeekTips={currentWeekTips}

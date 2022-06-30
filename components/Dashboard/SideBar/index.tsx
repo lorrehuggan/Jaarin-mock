@@ -31,6 +31,16 @@ const menu = [
       />
     ),
   },
+  {
+    name: 'Shifts',
+    icon: (
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    ),
+  },
 ];
 
 const SideBar = (props: Props) => {
@@ -46,11 +56,14 @@ const SideBar = (props: Props) => {
         <div className="mr-2 flex h-8 w-8 items-center justify-center rounded bg-slate-600 p-1 font-mono uppercase text-white">
           J
         </div>
-        <h2 className="font-mono text-2xl font-bold">Jaarin</h2>
+        <h2 className="font-mono text-xs font-bold">Jaarin Beta</h2>
       </div>
 
       {menu.map((item, i) => (
-        <div className="mt-8 flex items-center pl-9 " key={item.name}>
+        <div
+          className="flex cursor-pointer items-center py-4 pl-9 hover:bg-slate-100"
+          key={item.name}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="mr-2 h-6 w-6"

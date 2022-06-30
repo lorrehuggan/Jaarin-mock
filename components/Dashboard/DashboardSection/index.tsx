@@ -6,7 +6,7 @@ interface Props {
 
 const Section: React.FC<Props> = ({ children }) => {
   return (
-    <section className="mx-auto mb-4 w-[90%] rounded border-2 border-slate-200 bg-white p-4  lg:w-[100%]">
+    <section className="mx-auto mb-4 w-[90%] rounded border-[1px] border-neutral-300 bg-white p-4 lg:w-[100%]">
       {children}
     </section>
   );

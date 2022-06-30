@@ -40,12 +40,12 @@ const Overview: React.FC<Props> = ({ job, user }) => {
         />
         <Analytic
           currency={user.currency}
-          name="This Week"
+          name="Week"
           data={numberReducer(currentWeekTips)}
         />
         <Analytic
           currency={user.currency}
-          name="This Month"
+          name="Month"
           data={numberReducer(currentMonthTips)}
         />
       </div>

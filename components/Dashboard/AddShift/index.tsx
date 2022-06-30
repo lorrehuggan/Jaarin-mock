@@ -10,6 +10,9 @@ import { useLocalStorage } from 'utils/hooks/useLocalStorage';
 import { useToasts } from 'react-toast-notifications';
 import { Job } from 'utils/types/job-types';
 import useJob from 'utils/hooks/useJob';
+import { NumberInput } from '@mantine/core';
+import { HandleCurrency } from 'utils/helpers';
+import { BsClockHistory } from 'react-icons/bs';
 
 interface Values {
   date: number;
@@ -24,10 +27,14 @@ const AddShiftSchema = Yup.object().shape({
 const AddShift = () => {
   const { token } = useLocalStorage();
   const [value, setValue] = useState<Date | null>(new Date());
+  const [tipsEarned, setTipsEarned] = useState<number | undefined>(0);
+  const [shiftLength, setShiftLength] = useState<number | undefined>(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { mutate } = useSWRConfig();
   const { addToast } = useToasts();
+
+  console.log(tipsEarned, shiftLength);
 
   return (
     <Section>
@@ -49,10 +56,13 @@ const AddShift = () => {
                 'Content-Type': 'application/json',
                 Authorization: token!,
               },
-              body: JSON.stringify({ ...values, date: getUnixTime(value!) }),
+              body: JSON.stringify({
+                tips: tipsEarned,
+                hours_worked: shiftLength,
+                date: getUnixTime(value!),
+              }),
             });
             const data: Job = await res.json();
-
             mutate([jobRoutes.base, token]);
             resetForm();
             addToast(`${data.user} Added Shift,`, {
@@ -61,13 +71,15 @@ const AddShift = () => {
               autoDismissTimeout: 2500,
               newestOnTop: true,
             });
+            setShiftLength(0);
+            setTipsEarned(0);
           } catch (error: any) {
             setError(error.message);
           }
 
           setLoading(false);
         }}
-        validationSchema={AddShiftSchema}
+        //validationSchema={AddShiftSchema}
       >
         {({ errors, touched }) => (
           <Form className="mx-auto mt-2 w-full">
@@ -79,28 +91,28 @@ const AddShift = () => {
               className="my-2"
               value={value}
               onChange={setValue}
-              styles={{
-                input: {
-                  backgroundColor: '#94A3B8',
-                  color: '#ffffff',
-                  fontSize: '1rem',
-                  padding: '1.25rem 1rem',
-                },
-              }}
+              // styles={{
+              //   input: {
+              //     backgroundColor: '#94A3B8',
+              //     color: '#ffffff',
+              //     fontSize: '1rem',
+              //     padding: '1.25rem 1rem',
+              //   },
+              // }}
             />
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="tips" className="text-sm text-slate-500">
+                <label htmlFor="tips" className=" text-sm text-slate-500">
                   Tips Earned
                 </label>
-                <Field
-                  id="tips"
-                  placeholder="Shift Length"
-                  type="number"
-                  step="any"
-                  min="1"
-                  name="tips"
-                  className="my-2 w-full rounded bg-slate-400 px-4 py-2 text-base text-white"
+                <NumberInput
+                  decimalSeparator="."
+                  defaultValue={0.0}
+                  precision={2}
+                  step={0.1}
+                  value={tipsEarned}
+                  onChange={(val) => setTipsEarned(val)}
+                  icon={<p>{HandleCurrency()}</p>}
                 />
               </div>
               <div>
@@ -110,20 +122,20 @@ const AddShift = () => {
                 >
                   Shift Length
                 </label>
-                <Field
-                  id="hours_worked"
-                  placeholder="Shift Length"
-                  type="number"
-                  min="0.5"
-                  step="0.5"
-                  name="hours_worked"
-                  className="my-2 w-full rounded bg-slate-400 px-4 py-2 text-base text-white"
+                <NumberInput
+                  decimalSeparator="."
+                  defaultValue={0}
+                  precision={2}
+                  step={0.5}
+                  value={shiftLength}
+                  onChange={(val) => setShiftLength(val)}
+                  icon={<p>{<BsClockHistory />}</p>}
                 />
               </div>
             </div>
             <button
               type="submit"
-              className="mt-2 w-full rounded bg-slate-800 p-2 text-center uppercase text-slate-100 transition-colors duration-300 ease-in-out hover:bg-pink-400"
+              className="text-slate-00 mt-4 w-full rounded bg-slate-300 p-2 text-center uppercase transition-colors duration-300 ease-in-out hover:bg-pink-400"
             >
               Submit
             </button>
