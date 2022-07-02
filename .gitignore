@@ -37,4 +37,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-/utils/api-routes/index.js
+/utils/api-routes/
