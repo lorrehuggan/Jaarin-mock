@@ -1,4 +1,6 @@
-const BASE_URL = 'http://localhost:5000/api/v1';
+const development = 'http://localhost:5000/api/v1';
+const production = 'https://infinite-depths-91540.herokuapp.com/api/v1';
+const BASE_URL = production;
 
 export const userRoutes = {
   base: `${BASE_URL}/user`,
