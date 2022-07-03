@@ -24,7 +24,8 @@
     "react-toast-notifications": "^2.5.1",
     "recharts": "^2.1.9",
     "swr": "^1.2.2",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "yup-password": "^0.2.2"
   },
   "devDependencies": {
     "@types/node": "17.0.21",

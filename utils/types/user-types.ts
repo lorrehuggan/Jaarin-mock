@@ -6,6 +6,14 @@ export interface LoginInput {
   password: string;
 }
 
+export interface SignUpInput {
+  username: string;
+  email: string;
+  currency: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export interface AuthenticatedUser {
   id: string;
   email: string;
