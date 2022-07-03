@@ -6,6 +6,7 @@ import { AuthenticatedUser, LoginInput, UserID } from 'utils/types/user-types';
 import { useRouter } from 'next/router';
 import { UseAuth } from 'utils/hooks/useAuth';
 import Nav from '@components/Home/Nav';
+import { Loader } from '@mantine/core';
 type Props = {};
 
 const loginSchema = Yup.object().shape({
@@ -21,11 +22,27 @@ const Login = (props: Props) => {
     UseAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  if (loading) {
+    return (
+      <main className="flex h-screen w-full items-center justify-center">
+        <Loader color="gray" size="xl" />
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="flex h-screen w-full items-center justify-center">
+        <p>{error}</p>
+      </main>
+    );
+  }
+
   return (
     <>
       <Nav />
       <section>
-        {loading ? <p>loading..</p> : <p>not loading..</p>}
         {error ? <p>{error}</p> : ''}
         <Formik
           initialValues={{
@@ -33,7 +50,6 @@ const Login = (props: Props) => {
             password: '',
           }}
           onSubmit={async (values: LoginInput, { resetForm }) => {
-            setLoading(true);
             try {
               const res = await fetch(userRoutes.login, {
                 method: 'POST',
@@ -42,11 +58,13 @@ const Login = (props: Props) => {
                 },
                 body: JSON.stringify(values),
               });
+              setLoading(true);
               const data: UserID = await res.json();
               resetForm();
               if (data.token) {
                 localStorage.setItem('token', data.token);
                 router.push(`/dashboard`);
+                setLoading(false);
               }
             } catch (error: any) {
               setLoading(false);

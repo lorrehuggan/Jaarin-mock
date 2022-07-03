@@ -23,12 +23,12 @@ const Home: NextPage = () => {
             </p>
             <div className="mx-auto flex w-full items-center justify-between">
               <Link href="/signup" passHref>
-                <button className="mr-2 h-full w-full rounded-md bg-rose-500 px-4 py-2 font-bold uppercase text-white transition-colors duration-300 ease-in-out hover:bg-rose-700">
+                <button className="mr-2 h-full w-full rounded bg-rose-500 px-4 py-2 font-bold uppercase text-white transition-colors duration-300 ease-in-out hover:bg-rose-700">
                   Sign up
                 </button>
               </Link>
               <Link href="/login" passHref>
-                <button className="m;-2 h-full w-full rounded-md bg-rose-500 px-4 py-2 font-bold uppercase text-white transition-colors duration-300 ease-in-out hover:bg-rose-700">
+                <button className="m;-2 h-full w-full rounded bg-rose-500 px-4 py-2 font-bold uppercase text-white transition-colors duration-300 ease-in-out hover:bg-rose-700">
                   Login
                 </button>
               </Link>

@@ -56,7 +56,7 @@ const SideBar = (props: Props) => {
         <div className="mr-2 flex h-8 w-8 items-center justify-center rounded bg-slate-600 p-1 font-mono uppercase text-white">
           J
         </div>
-        <h2 className="font-mono text-xs font-bold">Jaarin Beta</h2>
+        <h2 className="font-mono text-xs font-bold">Jaarin alpha</h2>
       </div>
 
       {menu.map((item, i) => (

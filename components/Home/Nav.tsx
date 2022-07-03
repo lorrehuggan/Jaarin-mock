@@ -16,7 +16,12 @@ const Nav: React.FC<Props> = ({}) => {
           <div className="mr-2 flex h-8 w-8 items-center justify-center rounded bg-slate-600 p-1 font-mono uppercase text-white">
             J
           </div>
-          <h2 className="font-mono text-2xl font-bold">Jaarin Beta</h2>
+          <Link href="/" passHref>
+            <h2 className="font-mono text-2xl font-bold">
+              Jaarin{' '}
+              <span className="bg-red-300/30 p-2 font-sans text-xl">alpha</span>
+            </h2>
+          </Link>
         </div>
       </Link>
       <ul className="flex items-center uppercase text-slate-500">
