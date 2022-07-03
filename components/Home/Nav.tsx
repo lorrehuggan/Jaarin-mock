@@ -25,7 +25,7 @@ const Nav: React.FC<Props> = ({}) => {
         </div>
       </Link>
       <ul className="flex items-center uppercase text-slate-500">
-        <li className="mr-4">
+        <li className="hover:text-red-400">
           {path === '/login' ? (
             ''
           ) : (
@@ -34,7 +34,7 @@ const Nav: React.FC<Props> = ({}) => {
             </Link>
           )}
         </li>
-        <li className="">
+        <li className="ml-4 hover:text-red-400">
           {path === '/signup' ? (
             ''
           ) : (

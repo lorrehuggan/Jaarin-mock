@@ -23,7 +23,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "context/user/userProvider.js"
+    "context/user/userProvider.js",
+    "pages/api/quotes.js"
   ],
   "exclude": ["node_modules"]
 }

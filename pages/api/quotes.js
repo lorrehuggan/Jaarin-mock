@@ -1,4 +1,3 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 const data = [
   {
     author: 'Bamigboye Olurotimi',
@@ -22,6 +21,8 @@ const data = [
   },
 ];
 
-export default function quotes(req: NextApiRequest, res: NextApiResponse) {
+export default function quotes(req, res) {
+  console.log({ req });
+
   res.status(200).json(data);
 }

@@ -42,8 +42,7 @@ const Login = (props: Props) => {
   return (
     <>
       <Nav />
-      <section>
-        {error ? <p>{error}</p> : ''}
+      <section className="flex h-[calc(100vh-6rem)] w-[100vw] flex-col items-center justify-center ">
         <Formik
           initialValues={{
             username: '',
@@ -51,6 +50,7 @@ const Login = (props: Props) => {
           }}
           onSubmit={async (values: LoginInput, { resetForm }) => {
             try {
+              setLoading(true);
               const res = await fetch(userRoutes.login, {
                 method: 'POST',
                 headers: {
@@ -58,7 +58,6 @@ const Login = (props: Props) => {
                 },
                 body: JSON.stringify(values),
               });
-              setLoading(true);
               const data: UserID = await res.json();
               resetForm();
               if (data.token) {
@@ -75,33 +74,57 @@ const Login = (props: Props) => {
           validationSchema={loginSchema}
         >
           {({ errors, touched }) => (
-            <Form className="mx-auto flex w-40 flex-col bg-slate-500 p-4">
-              <label htmlFor="username">username</label>
-              <Field
-                id="username"
-                placeholder="username"
-                type="text"
-                name="username"
-              />
-              {errors.username && touched.username ? (
-                <p className="text-xs text-red-500">{errors.username}</p>
-              ) : (
-                ''
-              )}
-              <label htmlFor="password">password</label>
-              <Field
-                id="password"
-                placeholder="password"
-                type="password"
-                name="password"
-              />
-              {errors.password && touched.password ? (
-                <p>{errors.password}</p>
-              ) : (
-                ''
-              )}
+            <Form className="w-[350px] flex-col items-center justify-center rounded bg-slate-100 p-10">
+              <div className="mb-4 flex-col items-center justify-between">
+                <label
+                  htmlFor="username"
+                  className="font-mono text-xl uppercase"
+                >
+                  Username
+                </label>
+                <div className="mt-2">
+                  <Field
+                    id="username"
+                    placeholder="noah1987"
+                    type="text"
+                    name="username"
+                    className="w-full p-2"
+                  />
+                  {errors.username && touched.username ? (
+                    <p className="mt-1 text-sm text-red-400">
+                      {errors.username}
+                    </p>
+                  ) : (
+                    ''
+                  )}
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="font-mono text-xl uppercase"
+                >
+                  Password
+                </label>
+                <div className="mt-2 flex-col items-center justify-between">
+                  <Field
+                    id="password"
+                    placeholder="********"
+                    type="password"
+                    name="password"
+                    className="w-full p-2"
+                  />
+                  {errors.password && touched.password ? (
+                    <p className="mt-1 text-sm text-red-400">
+                      {errors.password}
+                    </p>
+                  ) : (
+                    ''
+                  )}
+                </div>
+              </div>
               <button
-                className="bg-slate-200 active:bg-violet-300"
+                className="mt-8 w-full rounded bg-slate-500 p-4 text-slate-50 hover:bg-slate-400 hover:text-slate-800 active:bg-violet-300"
                 type="submit"
               >
                 Login
