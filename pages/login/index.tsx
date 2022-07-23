@@ -136,7 +136,7 @@ const Login = (props: Props) => {
           )}
         </Formik>
         <p className="mt-2">
-          Don't have an account?{' '}
+          Dont have an account?{' '}
           <span className="cursor-pointer text-jaarin-pink-700">
             <Link href="/signup">Sign up here</Link>
           </span>
