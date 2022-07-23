@@ -29,6 +29,7 @@ export interface UserID {
   username: string;
   email: string;
   token: string;
+  error?: string;
 }
 
 export interface MenuState {

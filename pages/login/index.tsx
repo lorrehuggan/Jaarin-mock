@@ -7,6 +7,8 @@ import { useRouter } from 'next/router';
 import { UseAuth } from 'utils/hooks/useAuth';
 import Nav from '@components/Home/Nav';
 import { Loader } from '@mantine/core';
+import Link from 'next/link';
+
 type Props = {};
 
 const loginSchema = Yup.object().shape({
@@ -43,6 +45,7 @@ const Login = (props: Props) => {
     <>
       <Nav />
       <section className="flex h-[calc(100vh-6rem)] w-[100vw] flex-col items-center justify-center ">
+        <h1 className="mb-4 font-mono text-2xl text-slate-400">Login</h1>
         <Formik
           initialValues={{
             username: '',
@@ -127,11 +130,17 @@ const Login = (props: Props) => {
                 className="mt-8 w-full rounded bg-slate-500 p-4 text-slate-50 hover:bg-slate-400 hover:text-slate-800 active:bg-violet-300"
                 type="submit"
               >
-                Login
+                Sign In
               </button>
             </Form>
           )}
         </Formik>
+        <p className="mt-2">
+          Don't have an account?{' '}
+          <span className="cursor-pointer text-jaarin-pink-700">
+            <Link href="/signup">Sign up here</Link>
+          </span>
+        </p>
       </section>
     </>
   );
